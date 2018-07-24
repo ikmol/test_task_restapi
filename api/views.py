@@ -87,4 +87,22 @@ class GetInfoFromEtherscan(viewsets.ModelViewSet):
         result = {"balance":get_balance,"last_block":last_block,"current_state":ether_price}
         
         return Response(result)
-    
+
+from rest_framework import generics, response
+from rest_framework.permissions import IsAuthenticated
+
+
+class UserView(generics.RetrieveUpdateAPIView):
+    serializer_class = serializers.UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserEtherView(generics.RetrieveAPIView):
+    serializer_class = serializers.UserEtherSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
